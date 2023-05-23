@@ -105,7 +105,7 @@ headers
 
 import pandas as pd
 mydata = pd.DataFrame(columns = headers)
-for j in table1.find_all('tr', )[2:]:
+for j in table.find_all('tr', )[2:]:
  row_data = j.find_all('td')
  row = [i.text for i in row_data]
  length = len(mydata)
