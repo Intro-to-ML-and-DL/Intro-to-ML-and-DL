@@ -98,3 +98,6 @@ The topics covered in this week (May 22, 2023 - May 28, 2023) are:
 
 
 
+## Assignment
+
+The assignment for this week can be found in the Assignments folder or <a href = "https://colab.research.google.com/drive/1tsjCJL6gy-_IQn0w24Yaf4xenIb5rtTf?usp=sharing">here</a>. <b>The deadline for the assignment is 2nd July (Friday) EOD.</b>
