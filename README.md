@@ -24,6 +24,10 @@ git config --global user.email "your-email"</code></pre>
    <code>git remote add upstream https://github.com/Intro-to-ML-and-DL/Intro-to-ML-and-DL.git</code>
 5. Verify that the remote connection : <code>git remote -v</code>. You would see two remote connections: origin (pointing to your forked repository) and upstream (pointing to the original repository).
 
+### Syncing your repository with the upstream
+1. In your remote repository on Github, click sync fork and then click update to update your repository to the latest commit in the upstream repository.
+2. To update the cloned repository in your system, type <code>git pull</code> by opening the terminal inside your project folder.
+
 ### Uploading Files
 Mentees are required to upload their solutions to assignments within the respective deadlines. To upload files, they may either use Github or the following command lines:
 1. Stage the files for commit using the <code>git add </code>command. <code>git add filename1 filename2</code> for specific files and <code>git add . </code> for all files.
