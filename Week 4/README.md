@@ -22,7 +22,8 @@ The topics covered in this week (June 5, 2023 - June 11, 2023) are:
         
     Silhouette Score , Elbow Method : https://www.analyticsvidhya.com/blog/2021/05/k-mean-getting-the-optimal-number-of-clusters
 
-4. DBScan : https://medium.com/codex/understanding-dbscan-clustering-hands-on-with-scikit-learn-a95cb27f0408
+4. DBScan : [https://medium.com/codex/understanding-dbscan-clustering-hands-on-with-scikit-learn-a95cb27f0408](https://www.analyticsvidhya.com/blog/2020/09/how-dbscan-clustering-works/)
+    https://www.kdnuggets.com/2020/04/dbscan-clustering-algorithm-machine-learning.html
 
 Krish Naik and StatsQuest videos are also amazing resources to learn these topics.
 
