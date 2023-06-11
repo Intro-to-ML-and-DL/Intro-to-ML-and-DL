@@ -28,6 +28,7 @@ The topics covered in this week (June 5, 2023 - June 11, 2023) are:
 Krish Naik and StatsQuest videos are also amazing resources to learn these topics.
 
 ## Assignment
-The deadline for Assignment 3 is EOD 18th June 2023.
+The deadline for Assignment 3 is EOD 18th June 2023. Google Colab : https://colab.research.google.com/drive/1U0TCbpfSI9XUb5_UBrJ7GZyFEnS1XrPL?usp=sharing
+
 
 Happy Coding !!!
