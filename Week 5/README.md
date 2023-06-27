@@ -21,3 +21,18 @@ Week 5 (June 18, 2023 - June 24, 2023) :
     2.2 Tensorflow tutorial : https://youtube.com/playlist?list=PLhhyoLH6IjfxVOdVC1P1L5z5azs0XjMsb (till video 3)
     
     2.3 Pytorch tutorial : https://youtube.com/playlist?list=PLqnslRFeH2UrcDBWF5mfPGpqQDSta6VK4 (till video 13)
+
+    
+## Assignment
+
+The deadline for Assignment 4 is EOD 26th June 2023. Google Colab : https://colab.research.google.com/drive/1e4-ktILdX22SgxvFUCVQ1RaeZWVYLnJZ?usp=sharing
+
+Some hints :
+
+1. https://www.hackerearth.com/practice/machine-learning/machine-learning-projects/python-project/tutorial/
+
+2. http://neuralnetworksanddeeplearning.com/chap1.html
+
+3. https://machinelearningmastery.com/pytorch-tutorial-develop-deep-learning-models/
+
+4. https://machinelearningmastery.com/tensorflow-tutorial-deep-learning-with-tf-keras/
