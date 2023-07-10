@@ -16,5 +16,5 @@ The topics covered in this week (May 15, 2023 - May 21, 2023) are:
 
 ## Assignment
 
-The assignment for this week can be found in the Assignments folder. <b>The deadline for the assignment is 12:00 PM 22 May (Monday).</b>
+The assignment for this week can be found in the Assignments folder. <b>The deadline for the assignment is 12:00 PM 23 May (Tuesday).</b>
 
