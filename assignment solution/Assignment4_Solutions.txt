@@ -1,0 +1,284 @@
+1.
+
+
+import numpy as np
+from keras.datasets import mnist
+import random
+     
+
+(train_X, train_y), (test_X, test_y) = mnist.load_data()
+print(train_X.shape)
+print(train_y.shape)
+print(test_X.shape)
+print(test_y.shape)
+     
+(60000, 28, 28)
+(60000,)
+(10000, 28, 28)
+(10000,)
+As discussed in the class, the images are flattened to a column.
+
+Then we are normalizing them by dividing by 255.
+
+
+train_X=train_X.reshape(60000,784,1)    # flattening
+test_X=test_X.reshape(10000,784,1)
+
+train_y=train_y.reshape(60000,1)
+test_y=test_y.reshape(10000,1)
+
+train_X= train_X/255
+test_X = test_X/255
+
+train_X=train_X[:10000]         #taking the first 10000 images.
+train_y=train_y[:10000]
+test_X=test_X[:1000]
+test_y=test_y[:1000]
+train_data=list(zip(train_X,train_y))
+test_data=list(zip(test_X,test_y))
+
+
+2.
+
+
+class Network(object):
+    def __init__(self,sizes): # sizes is a list containing the network.
+                              # eg : [784,128,10] means input =784 neurons,
+                              #    1st hidden layer 128 neurons, output 10 neurons.
+        self.sizes=sizes
+        self.num_layers="...can you say the number of layers based on the list called sizes..."
+        self.weights= [np.random.randn(x,y) for x,y in zip(sizes[1:],sizes[:-1])]
+        self.biases= "...can you do this by understanding the self.weights..."
+
+# stop_zone 1. Comment out all the code below. Select all rows below. Click Ctrl + /.
+# Include the show function given below above this comment area inside the class.
+# Run this cell and then run the code with stop_zone 1 written below.
+# After this testing, don't forget to remove the comments. Same, select all, Ctrl+/.
+
+    def forwardpropagation(self,a):
+        for b,w in zip(self.biases, self.weights):
+            a="...a is activation..." # sig (w.a +b)
+            # print(a.shape)
+        return a
+
+# stop_zone 2. Comment out all the code below. Don't comment out the __init__ method else you will get error.
+# Remove comment from print(a.shape) line above. Run this cell. And run the code with stop_zone 2 written below.
+
+
+    def backpropagation(self,x,y):
+
+        # nothing to do in this 3 lines. it is for creating a one-hot encoded vector of the labels.
+        y_t = np.zeros((len(y), 10))
+        y_t[np.arange(len(y)), y] = 1
+        y_t= y_t.T
+
+        #nabla_b=dC/db and nabla_w=dC/dw. They are lists of shapes equal to that of bias and weights.
+        nabla_b=[np.zeros(b.shape) for b in self.biases]
+        nabla_w=[np.zeros(w.shape) for w in self.weights]
+
+        # initially, a0 = input.
+        activation=x
+        activation_list=[x]
+
+        # step 1 : calculation of delta in last layer
+
+        # write the same forward propagation code here but while doing so store the a's.
+        for w,b in zip(self.weights,self.biases):
+            activation= "...just written above..."
+            activation_list.append(activation)
+
+        delta= "...delta is dC/dz3... how is it calculated?..."
+
+        # step 2 : nabla_b and nabla_w relation with delta of last layer
+
+        nabla_b[-1]="...how is dC/db3 and dC/dz3 related..."
+        nabla_w[-1]= "...how is dC/dw3 and dC/dz3 related..."
+
+        # print("{} {}".format(nabla_b[-1].shape,nabla_w[-1].shape) )
+#stop_zone 3 : remove comment from the print statement just above and run the cell for stop_zone3.
+# don't forget commenting out.
+
+        # step 3 : calculation of delta for hidden layers
+
+        for j in range(2,self.num_layers):
+            sig_der = activation_list[-j]*(1-activation_list[-j])
+            delta= "...how is dC/dz2 and dC/dz3 related ? Look i have calculated one term already for you (sig_der)..."
+
+            # step 4 : nabla_b and nabla_w relation with delta of others layers
+            nabla_b[-j]= "...again, how is dC/db2 and dC/dz2 related..."
+            nabla_w[-j]= "...how is dC/dw2 and dC/dz2 related..."
+
+        return (nabla_b,nabla_w)
+#stop_zone 4 : Run the cell for stop_zone 4.
+
+    def SGD(self, train_data,epochs,mini_batch_size, lr):
+        n_train= len(train_data)
+        for i in range(epochs):
+            random.shuffle(train_data)
+            mini_batches = ["""...Split the data into batches each of size = mini_batch_size  ..."""]
+
+  # Stop zone 5 : Remove comment from the next print line and comment out all the lines below it.
+        # print(np.array(mini_batches, dtype=object).shape)
+
+            for mini_batch in mini_batches:
+                self.update_mini_batch(mini_batch,lr)
+
+            self.predict(train_data)
+            print("Epoch {0} completed.".format(i+1))
+
+    # the functions below are complete. If you are fine till stop_zone 5, you can run
+    # this whole cell and train, test the data by running the last cell of the notebook.
+    # You may need to wait for around 10 minutes to see the test predictions.
+
+    def update_mini_batch(self,mini_batch,lr):
+        nabla_b=[np.zeros(b.shape) for b in self.biases]
+        nabla_w=[np.zeros(w.shape) for w in self.weights]
+        for x,y in mini_batch:
+            delta_b,delta_w= self.backpropagation(x,y)
+            nabla_b=[nb+ db for nb,db in zip (nabla_b,delta_b)]
+            nabla_w=[nw+dw for nw,dw in zip(nabla_w,delta_w)]
+
+        self.weights=[w- lr*nw/len(mini_batch) for w,nw in zip(self.weights,nabla_w)]
+        self.biases=[b-lr*nb/len(mini_batch) for b,nb in zip(self.biases,nabla_b)]
+
+    def predict(self,test_data):
+        test_results = [(np.argmax(self.forwardpropagation(x)),y) for x,y in test_data]
+        # returns the index of that output neuron which has highest activation
+
+        num= sum(int (x==y) for x,y in test_results)
+        print ("{0}/{1} classified correctly.".format(num,len(test_data)))
+
+
+     
+
+# stop_zone 1
+
+def show(self):
+  print(self.num_layers)
+  for bias in self.biases:
+      print(bias.shape)
+  for weight in self.weights:
+      print(weight.shape)
+
+# Copy this show function from here. Paste it inside that Network Class.
+# Comment out the show function here. Run this cell.
+
+net=Network([784,128,64,10])
+net.show()
+
+# The desired output is :
+# 4
+# (128, 1)
+# (64, 1)
+# (10, 1)
+# (128, 784)
+# (64, 128)
+# (10, 64)
+#  If you are getting this, you are correct. Proceed to forwardpropagation.
+
+# Keeping the show function over there in the Network class doesn't make any
+# difference. You may delete it if you wish. Better toss a coin.
+     
+
+# stop_zone 2
+# to use this, make sure your data is loaded. Run this cell.
+net=Network([784,128,64,10])
+print(train_X[0])
+net.forwardpropagation(train_X[0])
+
+# The desired output is :
+# (784, 1)
+# (128, 1)
+# (64, 1)
+# (10, 1)
+#  If you are getting this, you are correct. Proceed to forwardpropagation.
+     
+
+# stop_zone 3
+net=Network([784,128,64,10])
+net.backpropagation(train_X[0],train_y[0])
+
+# Desired output : (10,1) (10,64)
+     
+
+# stop_zone 4
+net=Network([784,128,64,10])
+nabla_b,nabla_w=net.backpropagation(train_X[0],train_y[0])
+for nb in nabla_b:
+  print(nb.shape)
+for nw in nabla_w:
+  print(nw.shape)
+
+# Desired output:
+# (128, 1)
+# (64, 1)
+# (10, 1)
+# (128, 784)
+# (64, 128)
+# (10, 64)
+     
+
+# Stop zone 5 :  Run this cell, for 10000 samples and batch size of 20, output should be
+#       (500,20,2).  500 batches each of size 20 and has 2 objects : train and test data.
+
+net=Network([784,256,128,64,10])
+net.SGD(train_data=train_data,epochs=20,mini_batch_size=20,lr=0.01)
+     
+
+net=Network([784,128,64,10])
+net.SGD(train_data=train_data,epochs=10,mini_batch_size=20,lr=0.01)
+print("Test data:")
+net.predict(test_data)
+
+
+3.
+
+
+import tensorflow as tf
+import matplotlib.pyplot as plt
+
+# Load MNIST dataset
+mnist = tf.keras.datasets.mnist
+(train_images, train_labels), (test_images, test_labels) = mnist.load_data()
+
+# Normalize the images
+train_images = train_images / 255.0
+test_images = test_images / 255.0
+
+# Visualize the first 20 images from the training data
+plt.figure(figsize=(10, 2))
+for i in range(20):
+    plt.subplot(2, 10, i+1)
+    plt.imshow(train_images[i], cmap='gray')
+    plt.axis('off')
+plt.show()
+
+# Visualize the first 20 images from the test data
+plt.figure(figsize=(10, 2))
+for i in range(20):
+    plt.subplot(2, 10, i+1)
+    plt.imshow(test_images[i], cmap='gray')
+    plt.axis('off')
+plt.show()
+
+# Define the model architecture
+model = tf.keras.Sequential([
+    tf.keras.layers.Flatten(input_shape=(28, 28)),
+    tf.keras.layers.Dense(128, activation='relu'),
+    tf.keras.layers.Dense(64, activation='relu'),
+    tf.keras.layers.Dense(10, activation='softmax')
+])
+
+# Compile the model
+model.compile(optimizer='adam',
+              loss='sparse_categorical_crossentropy',
+              metrics=['accuracy'])
+
+# Train the model
+model.fit(train_images, train_labels, epochs=10, batch_size=32)
+
+# Evaluate the model on the test data
+test_loss, test_accuracy = model.evaluate(test_images, test_labels)
+print('Test loss:', test_loss)
+print('Test accuracy:', test_accuracy)
+
