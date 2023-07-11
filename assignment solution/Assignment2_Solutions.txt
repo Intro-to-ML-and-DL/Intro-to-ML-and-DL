@@ -1,0 +1,232 @@
+1.
+
+import numpy as np
+
+class LinearRegression:
+    def __init__(self, learning_rate, epochs, penalty=None, alpha=0):
+        self.learning_rate = learning_rate
+        self.epochs = epochs
+        self.penalty = penalty
+        self.alpha = alpha
+        self.weights = None
+        self.bias = None
+
+    def fit(self, X, y):
+        n_samples, n_features = X.shape
+
+        # Initialize weights and bias
+        self.weights = np.zeros(n_features)
+        self.bias = 0
+
+        for _ in range(self.epochs):
+            # Compute predictions
+            y_pred = self.predict(X)
+
+            # Calculate gradients
+            if self.penalty is None:
+                dw = (1 / n_samples) * np.dot(X.T, (y_pred - y))
+            elif self.penalty == 'L1':
+                dw = (1 / n_samples) * np.dot(X.T, (y_pred - y)) + (self.alpha / n_samples) * np.sign(self.weights)
+            elif self.penalty == 'L2':
+                dw = (1 / n_samples) * np.dot(X.T, (y_pred - y)) + (2 * self.alpha / n_samples) * self.weights
+
+            db = (1 / n_samples) * np.sum(y_pred - y)
+
+            # Update weights and bias
+            self.weights -= self.learning_rate * dw
+            self.bias -= self.learning_rate * db
+
+    def predict(self, X):
+        return np.dot(X, self.weights) + self.bias
+
+
+2.
+
+
+
+
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import MinMaxScaler
+from sklearn.metrics import mean_squared_error, r2_score
+from sklearn.linear_model import LinearRegression, Lasso, Ridge
+
+# Get column names (excluding the first and last columns)
+column_names = df.columns[1:-1]
+
+# Plot each column against the price column
+for column in column_names:
+    plt.scatter(df[column], df['price'])
+    plt.xlabel(column)
+    plt.ylabel('price')
+    plt.show()
+
+df = df.drop(['No'], axis=1)
+X = df.drop(['price'], axis=1)
+y = df['price']
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25, random_state=42)
+
+scaler = MinMaxScaler()
+X_train_normalized = scaler.fit_transform(X_train)
+X_test_normalized = scaler.transform(X_test)
+
+
+
+
+3.
+
+from sklearn.datasets import load_breast_cancer
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import MinMaxScaler
+
+# Load the breast cancer dataset
+data = load_breast_cancer()
+
+# Separate the features (X) and target (y)
+X = data.data
+y = data.target
+
+# Normalize the features using MinMaxScaler
+scaler = MinMaxScaler()
+X_normalized = scaler.fit_transform(X)
+
+# Split the data into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(X_normalized, y, test_size=0.2, random_state=42)
+
+def sigmoid(z):
+   "..."
+
+def sigmoid_derivative(z):
+    "..."
+
+class LogisticRegression:
+    def __init__(self, learning_rate, epochs):
+      #Initialise the hyperparameters of the model
+        self.lr = "..."
+        self.epochs = "..."
+
+    def fit(self, X, y):
+        n_samples, n_features = X.shape 
+        y = y.reshape(-1, 1)
+        self.weights = "..."
+        self.bias = "..."
+
+        #Implement the GD algortihm
+        for _ in range(self.epochs):
+            z = "..."
+            y_pred = "..."
+
+            dw = "..."
+            db = "..."
+
+            self.weights -= "..."
+            self.bias -= "..."
+
+    def predict(self, X):
+      #Write the predict function
+        "..."
+        return y_pred
+
+
+
+4.
+
+
+
+import pandas as pd
+import numpy as np
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.tree import DecisionTreeClassifier
+from sklearn import tree
+import matplotlib.pyplot as plt
+
+# Load the dataset
+df = pd.read_csv('glass.csv')
+
+# Extract the X and Y columns
+X = df.drop(['id', 'glass_type'], axis=1)
+y = df['glass_type']
+
+# Split the data into training and testing datasets
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# Define Euclidean distance
+def euclidean_distance(x1, x2):
+    return np.sqrt(np.sum((x1 - x2) ** 2))
+
+# Build the KNN model
+class KNN:
+    def __init__(self, k):
+        self.k = k
+
+    def fit(self, X, y):
+        self.X_train = X
+        self.y_train = y
+
+    def predict(self, X):
+        y_pred = [self._predict(x) for x in X]
+        return np.array(y_pred)
+
+    def _predict(self, x):
+        # Compute distances between x and all examples in the training set
+        distances = [euclidean_distance(x, x_train) for x_train in self.X_train]
+        # Sort by distance and return indices of the first k neighbors
+        k_indices = np.argsort(distances)[:self.k]
+        # Extract the labels of the k nearest neighbor training samples
+        k_labels = [self.y_train[i] for i in k_indices]
+        # Return the most common class label
+        most_common = np.argmax(np.bincount(k_labels))
+        return most_common
+
+# Convert data from pandas DataFrame to numpy arrays
+X_train = np.array(X_train)
+X_test = np.array(X_test)
+y_train = np.array(y_train)
+y_test = np.array(y_test)
+
+# Create and fit the KNN model
+knn = KNN(k=3)
+knn.fit(X_train, y_train)
+
+# Make predictions using the KNN model
+y_pred_knn = knn.predict(X_test)
+
+# Calculate accuracy using accuracy_score
+accuracy_knn = accuracy_score(y_test, y_pred_knn)
+print('KNN Accuracy:', accuracy_knn)
+
+# Compare with the sklearn KNN model
+sklearn_knn = KNeighborsClassifier(n_neighbors=3)
+sklearn_knn.fit(X_train, y_train)
+y_pred_sklearn_knn = sklearn_knn.predict(X_test)
+accuracy_sklearn_knn = accuracy_score(y_test, y_pred_sklearn_knn)
+print('Sklearn KNN Accuracy:', accuracy_sklearn_knn)
+
+# Implement Decision Tree Classifier
+max_depths = range(5, 11)
+accuracies_dt = []
+
+for max_depth in max_depths:
+    dt = DecisionTreeClassifier(max_depth=max_depth)
+    dt.fit(X_train, y_train)
+    y_pred_dt = dt.predict(X_test)
+    accuracy_dt = accuracy_score(y_test, y_pred_dt)
+    accuracies_dt.append(accuracy_dt)
+    print(f'Decision Tree Accuracy (Max Depth = {max_depth}):', accuracy_dt)
+
+# Plot the decision tree
+dt = DecisionTreeClassifier(max_depth=5)
+dt.fit(X_train, y_train)
+
+plt.figure(figsize=(10, 6))
+tree.plot_tree(dt, filled=True, feature_names=X.columns, class_names=df['glass_type'].unique())
+plt.show()
+
+
+
+
